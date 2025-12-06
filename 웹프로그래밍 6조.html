@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹프로그래밍 6조</title>
+    <style>
+        #board {
+            display: grid;
+            grid-template-columns: repeat(21, 1fr);
+            width: 800px;
+            margin: 0 auto;
+            font-size: 20px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="JW" style="display: flex;">
+        <div class="img">
+            <img src="https://u.acmicpc.net/c7f4e70a-f1d0-4f11-8eb1-91a3baedc002/2.png" alt="서울 2호선 지도"
+                style="margin-right: 10px; width:350px">
+        </div>
+        <div class="qna">
+            <div id="question"></div>
+            <input id="stationAnswer" placeholder="정거장 수 입력"></input>
+            <button id="submitButton">제출</button>
+            <div id="stationResult"></div>
+        </div>
+        <script>
+            const stations = ["시청", "을지로입구", "을지로3가", "을지로4가", "동대문역사문화공원", "신당", "상왕십리", "왕십리", "한양대",
+                "뚝섬", "성수", "건대입구", "구의", "강변", "잠실나루", "잠실", "잠실새내", "종합운동장", "삼성", "선릉", "역삼", "강남",
+                "교대", "서초", "방배", "사당", "낙성대", "서울대입구", "봉천", "신림", "신대방", "구로디지털단지", "대림", "신도림", "문래",
+                "영등포구청", "당산", "합정", "홍대입구", "신촌", "이대", "아현", "충정로"];
+
+            const $submit = document.querySelector("#submitButton");
+
+            let randNum1, randNum2;
+            do {
+                randNum1 = parseInt(Math.random() * 43);
+                randNum2 = parseInt(Math.random() * 43);
+            } while (randNum1 === randNum2);
+
+
+            document.getElementById("question").innerHTML = `<b>${stations[randNum1]}</b>에서 전철을 타고 <b>${stations[randNum2]}</b>에서 내리려고 합니다.
+            몇 번째 정거장에서 내려야 할까요?`;
+            let case1 = Math.abs(randNum1 - randNum2);
+            let case2 = stations.length - case1;
+            let dist = case1 < case2 ? case1 : case2;
+
+            $submit.addEventListener("click", () => {
+                const $stationsDist = document.querySelector("#stationAnswer").value;
+                if (parseInt($stationsDist) === dist) {
+                    document.getElementById("stationResult").innerHTML = "정답입니다!"
+                } else {
+                    document.getElementById("stationResult").innerHTML = "오답입니다."
+                }
+            })
+        </script>
+    </div>
+    <hr>
+    <div id="JY">
+        <img src="https://recipe1.ezmember.co.kr/cache/recipe/2018/10/21/b1a3f537aadca6e12f45b21aaca2a7981.jpg"
+            alt="콩나물국" style="width: 300px; border-radius: 8px;">
+
+        <h2>콩나물국 끓이는 순서 고르기</h2>
+
+        <p>아래 문장을 읽고 정확한 순서를 넣으세요</p>
+
+
+        <ol>
+            <li> 콩나물을 냄비에 넣고 뚜겅을 덮은 뒤 끓인다</li>
+            <li> 소금으로 간을 한다</li>
+            <li> 냄비에 물과 멸치다시마육수를 넣는다</li>
+            <li> 다진마늘, 다진파, 멸치액젓을 넣는다 </li>
+        </ol>
+
+        <label>
+            순서를 입력하세요:
+            <input type='text' id="answer" placeholder="예시: 1234">
+            <button id="check">정답확인하기</button>
+        </label>
+        <p id="result"></p>
+
+        <script>
+            const first = '3142'
+            $answer = document.querySelector('#answer');
+            $button = document.querySelector('#check');
+            $result = document.querySelector('#result');
+
+            $button.addEventListener('click', () => {
+                const wow = $answer.value;
+                const transform = wow.replaceAll(' ', '');
+
+                if (transform === first) {
+                    $result.textContent = '정답입니다'
+                    $result.style.color = 'green'
+                }
+                else {
+                    $result.textContent = '오답입니다 다시 입력해보세요'
+                    $result.style.color = 'red'
+                    $answer.value = '';
+                    $answer.focus();
+                }
+            })
+        </script>
+    </div>
+    <hr>
+    <div id="SW">
+        <h2 style="text-align: center;">숫자 8을 모두 찾으세요!</h2>
+        <div id="board">
+            <script>
+                const numString =
+                    "342689723489512654890" +
+                    "426897236895126548902" +
+                    "134268972368951265469" +
+                    "342789723489512654890" +
+                    "426897236895126548902" +
+                    "134268972318951265489" +
+                    "342689723689512654890";
+
+                const board = document.getElementById("board");
+
+                let total = 0;
+                let count = 0;
+
+                for (const char of numString) {
+                    if (char === '8') total++;
+
+                    const cell = document.createElement("div");
+                    cell.innerText = char;
+
+                    cell.onclick = function () {
+                        if (this.style.color === 'red') return;
+
+                        if (char === '8') {
+                            this.style.color = 'red';
+                            this.style.fontWeight = 'bold';
+                            count++;
+
+                            if (count === total) alert("성공! 다 찾았습니다.");
+                        } else {
+                            alert("틀렸습니다.");
+                        }
+                    };
+                    board.appendChild(cell);
+                }
+            </script>
+        </div>
+    </div>
+    <hr>
+    <div id="GR">
+
+        <h1>집중력 시공간 지각 훈련</h1>
+        <p>Q1. 빈칸에 들어갈 숫자를 써 넣으세요.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>10</td>
+                    <td>20</td>
+                    <td>30</td>
+                    <td>40</td>
+                    <td data-answer="50"><input type="text" id="input-1" size="5"></td>
+                    <td>60</td>
+                    <td>70</td>
+                    <td>80</td>
+                    <td>90</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>10</td>
+                    <td>15</td>
+                    <td>20</td>
+                    <td>25</td>
+                    <td data-answer="30"><input type="text" id="input-2" size="5"></td>
+                    <td>35</td>
+                    <td>40</td>
+                    <td>45</td>
+                    <td>50</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>6</td>
+                    <td>8</td>
+                    <td data-answer="10"><input type="text" id="input-3" size="5"></td>
+                    <td>12</td>
+                    <td>14</td>
+                    <td>16</td>
+                    <td>18</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>6</td>
+                    <td>9</td>
+                    <td>12</td>
+                    <td data-answer="15"><input type="text" id="input-4" size="5"></td>
+                    <td>18</td>
+                    <td>21</td>
+                    <td>24</td>
+                    <td>27</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>21</td>
+                    <td>31</td>
+                    <td data-answer="41"><input type="text" id="input-5" size="5"></td>
+                    <td>51</td>
+                    <td>61</td>
+                    <td>71</td>
+                    <td>81</td>
+                    <td>91</td>
+                    <td>101</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p><br></p>
+        <button onclick="checkAnswers()">정답 확인 및 종료</button>
+        <p id="result"></p>
+
+        <script>
+            function checkAnswers() {
+                var correctCount = 0;
+                var totalQuestions = 5;
+                var i;
+                var inputElement;
+                var cellElement;
+                var resultElement = document.getElementById('result');
+
+                for (i = 1; i <= totalQuestions; i++) {
+
+                    inputElement = document.getElementById('input-' + i);
+                    cellElement = inputElement.parentNode;
+
+                    if (inputElement.value.trim() === cellElement.getAttribute('data-answer')) {
+                        correctCount = correctCount + 1;
+                        cellElement.style.backgroundColor = 'lightgreen';
+                    } else {
+                        cellElement.style.backgroundColor = 'red';
+                    }
+
+                    inputElement.value = cellElement.getAttribute('data-answer');
+                    inputElement.setAttribute('disabled', 'true');
+                }
+
+                if (correctCount === totalQuestions) {
+                    resultElement.innerHTML = '모두 정답입니다!';
+                } else {
+                    resultElement.innerHTML = '정답이 아닙니다. 정답을 확인하세요. (맞은 개수: ' + correctCount + ' / 5)';
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>
